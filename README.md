@@ -45,7 +45,7 @@ We encourage users to structure their data directories in the following way:
     |   - ...
 ```
 
-### Running script on *images*
+### Running the script
 ```bash
 python run.py \
   --input <path>
