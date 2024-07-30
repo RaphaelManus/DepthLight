@@ -38,16 +38,16 @@ python run.py \
   --type <ldr_lfov | ldr_pano | hdr_pano> \
   --output <path> \
   --fov <fov> \
-  --prompt <optional prompt>
+  --prompt <"optional prompt">
 ```
 Options:
 - `--input` or `-i`: Point it to an image directory storing all interested images
 - `--type` or `-t` (optional): By default, expected input type is LDR LFOV images.
 - `--output` or `-o` (optional): You can point it to a different directory than the input if needed.
 - `--fov` or `-f` (optional): Specify the fov of the inputs, default is `90°`.
-- `--prompt` or `-p` (optional): Specify a prompt to guide the generation, default is `indoor`.
+- `--prompt` or `-p` (optional): Specify a prompt to guide the generation, default is `"indoor"`.
 
 For example:
 ```bash
-python run.py -i ./data/input -t ldr_lfov -f 90 -p indoor
+python run.py -i ./data/input -t ldr_lfov -f 90 -p "indoor"
 ```
