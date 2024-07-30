@@ -12,9 +12,7 @@
 
 ## WIP page...
 
-## Usage 
-
-### Installation
+## Installation
 
 Update `depthlight.yml` with correct CUDA version for PyTorch if needed.
 
@@ -30,7 +28,7 @@ conda env create LANet.yml
 conda activate depthlight
 ```
 
-### Usage
+## Usage
 
 We encourage users to structure their data directories in the following way:
 ```
@@ -47,7 +45,7 @@ We encourage users to structure their data directories in the following way:
     |   - ...
 ```
 
-## Running script on *images*
+### Running script on *images*
 ```bash
 python run.py \
   --input <path>
