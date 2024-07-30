@@ -16,7 +16,9 @@
 
 ### Installation
 
-```bash
+Update `depthlight.yml` with correct CUDA version for PyTorch if needed.
+
+```python
 git clone https://github.com/RaphaelManus/DepthLight
 cd DepthLight
 git clone https://github.com/shanemankiw/Panodiff
@@ -30,11 +32,26 @@ conda activate depthlight
 
 ### Running
 
-```bash
+```python
 python run.py --input YOUR_INPUT_PATH --type INPUT_TYPE --fov FOV --prompt OPTIONAL_PROMPT
 ```
 
+```python
+python run.py \
+  --input <path>
+  --type <ldr_lfov | ldr_pano | hdr_pano> \
+  --output <path> \
+  --fov <fov> \
+  --prompt <optional prompt>
+```
+Options:
+- `--input` `-i`: Point it to an image directory storing all interested images
+- `--type` `-t` (optional): By default, expected input type is LDR LFOV images.
+- `--output` `-o` (optional): You can point it to a different directory than the input if needed.
+- `--fov` `-f` (optional): Specify the fov of the inputs, default is `90°`.
+- `--prompt` `-p` (optional): Specify a prompt to guide the generation, default is `indoor`.
+
 For example:
-```bash
+```python
 python run.py -i ./data/input -t ldr_lfov -f 90 -p indoor
 ```
