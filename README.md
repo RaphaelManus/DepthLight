@@ -30,8 +30,24 @@ conda env create LANet.yml
 conda activate depthlight
 ```
 
-### Running
+### Usage
 
+We encourage users to structure their data directories in the following way:
+```
+- data
+    '- input
+    |   - img1.jpg
+    |   - img2.png
+    |   - ...
+    '- ldr_pano
+    |   - ...
+    '- hdr_pano
+    |   - ...
+    '- usd
+    |   - ...
+```
+
+## Running script on *images*
 ```bash
 python run.py \
   --input <path>
