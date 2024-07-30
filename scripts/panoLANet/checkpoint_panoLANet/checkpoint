@@ -1,0 +1,2 @@
+model_checkpoint_path: "panoLANet"
+all_model_checkpoint_paths: "panoLANet"
