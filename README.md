@@ -23,19 +23,18 @@ git clone https://github.com/shanemankiw/Panodiff
 git clone https://github.com/LWT3437/LANet
 git clone https://github.com/DepthAnything/Depth-Anything-V2
 
-conda env create -f environment.yaml
+conda env create depthlight.yml
+conda env create LANet.yml
 conda activate depthlight
 ```
 
 ### Running
 
 ```bash
-python run.py --args
+python run.py --input YOUR_INPUT_PATH --type INPUT_TYPE --fov FOV --prompt OPTIONAL_PROMPT
 ```
-Arguments:
-- ``--args``: arguments.
 
 For example:
 ```bash
-python run.py --args
+python run.py -i ./data/input -t ldr_lfov -f 90 -p indoor
 ```
