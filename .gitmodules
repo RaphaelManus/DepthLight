@@ -1,3 +1,6 @@
 [submodule "Depth-Anything-V2"]
 	path = scripts/Depth-Anything-V2
 	url = https://github.com/DepthAnything/Depth-Anything-V2
+[submodule "Panodiff"]
+	path = scripts/Panodiff
+	url = https://github.com/shanemankiw/Panodiff
