@@ -1,0 +1,16 @@
+name: lanet_test_env
+channels:
+  - defaults
+dependencies:
+  - python=3.7.16
+  - pip=22.3.1
+  - pip:
+      - opencv-python==3.4.10.35
+      - openexr==3.2.4
+      - tensorboard==1.13.1
+      - tensorflow==1.13.1
+      - tensorflow-estimator==1.13.0
+      - tensorlayer==1.11.1
+      - termcolor==2.3.0
+      - protobuf==3.19.0
+
