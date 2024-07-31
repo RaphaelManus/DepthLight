@@ -25,6 +25,7 @@ if not os.path.exists("./scripts/panoLANet/checkpoint_panoLANet/panoLANet.meta")
     process = subprocess.run(cmd, shell=True, cwd="./scripts/panoLANet/checkpoint_panoLANet")
 
 if not os.path.exists("./scripts/depth_anything_v2/checkpoints/depth_anything_v2_vitl.pth"):
+    os.makedirs("./scripts/depth_anything_v2/checkpoints", exist_ok=True)
     cmd = "wget https://huggingface.co/depth-anything/Depth-Anything-V2-Large/resolve/main/depth_anything_v2_vitl.pth?download=true -O depth_anything_v2_vitl.pth"
     process = subprocess.run(cmd, shell=True, cwd="./scripts/depth_anything_v2/checkpoints")
 
