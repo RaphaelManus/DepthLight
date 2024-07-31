@@ -40,7 +40,7 @@ import imghdr
 os.environ["OPENCV_IO_ENABLE_OPENEXR"]="1"
 
 from scripts.depth import depthany
-from scripts.diffusion import get_model, panodiff
+from scripts.diffusion import get_model, panodiff, log_images
 
 from pxr import Usd, UsdGeom, Gf, Vt, Sdf, UsdShade
 
@@ -328,7 +328,8 @@ if __name__ == '__main__':
                         batch[item] = batch[item].to(panodiff_model.device)
 
                 kwargs = {}
-                images = panodiff_model.log_images(batch, split="test", **kwargs)
+                #images = panodiff_model.log_images(batch, split="test", **kwargs)
+                images = log_images(panodiff_model, batch, **kwargs)
                 os.makedirs(ldrpano_path, exist_ok=True)
 
                 image = images['samples_cfg_scale_9.00'][0]
