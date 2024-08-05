@@ -13,4 +13,4 @@ dependencies:
       - tensorlayer==1.11.1
       - termcolor==2.3.0
       - protobuf==3.19.0
-
+      - numpy==1.21.6
