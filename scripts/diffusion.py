@@ -8,7 +8,12 @@ sys.path.append(scripts_directory)
 import pytorch_lightning as pl
 from pytorch_lightning.loggers import TensorBoardLogger
 from torch.utils.data import DataLoader
-from scripts.Panodiff.dataloaders.rota_dataset import SingleDataset
+import json
+from torchvision import transforms
+from torchvision.datasets.vision import VisionDataset
+import numpy as np
+import cv2
+from PIL import Image
 #from scripts.Panodiff.cldm.logger import ImageLogger ################ REPLACED ################
 from scripts.Panodiff.cldm.model import create_model, load_state_dict
 import torch
@@ -43,6 +48,83 @@ img_size = 512
 log_path = 'logs'
 name_head = 'public'
 
+class SingleDataset_(VisionDataset):
+    def __init__(self, root, dataset_name, index,
+                prompt,
+                prompt_path=None, extensions='.jpg', 
+                Train=True, down_scale=1, 
+                break_iter=None, mask=None):
+        
+        self.height = 512
+        self.width = 1024
+        transform, target_transform = self.init_crops_transform()
+        
+        super(SingleDataset_, self).__init__(root, transform=transform,
+                                            target_transform=target_transform)
+        
+        if break_iter is None:
+            self.break_iter = 0
+        else:
+            self.break_iter = break_iter + 1
+        self.extensions = extensions
+        self.train = Train
+        self.dataset_type = dataset_name
+        prompt_json_file_train = prompt_path
+        self.prompts = json.load(open(prompt_json_file_train, 'r'))
+
+        self.mask = np.expand_dims(mask, axis=-1)
+        
+        # reading the full pano
+        target = root
+        print(root.shape)
+        target = cv2.cvtColor(target, cv2.COLOR_BGR2RGB)
+        
+        source = target * self.mask
+
+        self.target = (target.astype(np.float32) / 127.5) - 1.0
+        self.hint = source.astype(np.float32) / 255.0
+        self.prompt = prompt
+
+    def __getitem__(self, index):
+        return dict(jpg=self.target, 
+                    txt=self.prompt, 
+                    hint=self.hint, 
+                    mask=np.where(self.mask==0, 1, 0))
+
+    def __len__(self):
+        return 5 # generate 5 instances for the same prompt
+        
+    def init_crops_transform(self):
+        transform = transforms.Compose(
+                                  [transforms.Resize((int(self.height), int(self.height))), transforms.ToTensor(),
+                                   transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+                                   ])
+        target_transform=transforms.Compose(
+                                  [transforms.Resize((int(self.height), int(self.height))), transforms.ToTensor(),
+                                   transforms.Normalize(mean=(0.485, 0.456, 0.406), std=(0.229, 0.224, 0.225)),
+                                   ])
+        
+        return transform, target_transform
+    
+    
+    def normal_transform(self, image):
+        image_arr = np.array(image)
+        image_arr = (image_arr / 255).astype(np.float32)
+        return torch.tensor(image_arr)
+    
+    def loader(self, path, down_scale=1):
+    # open path as file to avoid ResourceWarning (https://github.com/python-pillow/Pillow/issues/835)
+        with open(path, 'rb') as f:
+            img = Image.open(f)
+            img = img.convert('RGB')
+        if down_scale > 1:
+            width, height = img.size
+            new_width = int(width / down_scale)
+            new_height = int(height / down_scale)
+            new_size = (new_width, new_height)
+            img = img.resize(new_size)
+        return img
+
 def get_model():
     # First use cpu to load models. Pytorch Lightning will automatically move it to GPUs.
     model = create_model(panodiff_model_path) #.cuda()
@@ -55,16 +137,14 @@ def get_model():
     model.padding_augment = padding_augment
     if rotation_supervise:
         model.rotation_loss_lambda = rotation_loss_lambda
-
     model.roll_augment = roll_augment
     model.roll_schedule = roll_schedule
     model.deform_augment = False
     model.eval()
-
     return model
 
 def panodiff(target, mask, prompt):
-    test_dataset = SingleDataset(root=target, 
+    test_dataset = SingleDataset_(root=target, 
                                     prompt_path='./scripts/panodiff/prompts/my_sun360_prompts_no360.json',
                                     dataset_name='sun360',
                                     index='000000',
