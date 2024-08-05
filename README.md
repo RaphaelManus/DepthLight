@@ -20,7 +20,6 @@ Update `depthlight.yml` with correct CUDA version for PyTorch if needed.
 git clone --recurse-submodules https://github.com/RaphaelManus/DepthLight
 cd DepthLight
 
-
 conda env create -f depthlight.yml
 conda env create -f LANet.yml
 
