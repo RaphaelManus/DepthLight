@@ -21,8 +21,8 @@ git clone --recurse-submodules https://github.com/RaphaelManus/DepthLight
 cd DepthLight
 
 
-conda env create depthlight.yml
-conda env create LANet.yml
+conda env create -f depthlight.yml
+conda env create -f LANet.yml
 
 conda activate depthlight
 ```
