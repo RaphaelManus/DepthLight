@@ -24,6 +24,9 @@ cd DepthLight
 conda env create -f depthlight.yml
 conda env create -f LANet.yml
 
+conda activate LANet
+pip install numpy --upgrade
+
 conda activate depthlight
 ```
 
