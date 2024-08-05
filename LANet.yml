@@ -1,4 +1,4 @@
-name: lanet_test_env
+name: lanet
 channels:
   - defaults
 dependencies:
