@@ -11,7 +11,6 @@ parser.add_argument('--type', '-t', default="ldr_lfov", choices=["ldr_lfov", "l"
 parser.add_argument('-o', '--output_path', help='path of the output folder, default is next to the input folder')
 parser.add_argument('-f', '--fov', default="90", help='field of view of the input image, default is 90')
 parser.add_argument('-p', '--optional_prompt', '--prompt', default="", help='OPTIONAL: prompt for the panorama generation, example: "indoor" or "outdoor"')
-parser.add_argument('--ue', action='store_true', help='OPTIONAL: create a usd file for Unreal Engine')
 
 args = parser.parse_args()
 
@@ -188,29 +187,28 @@ class EmissiveMesh:
 
         # --------------- duplicate everything to give thickness to the mesh --------------- #
 
-        if args.ue:
-            # apply a 10% scale to the second mesh
-            pts2 = pts.copy()
-            pts2[:, 0] *= 1.1
-            pts2[:, 1] *= 1.1
-            pts2[:, 2] *= 1.1
+        # apply a 10% scale to the second mesh
+        pts2 = pts.copy()
+        pts2[:, 0] *= 1.1
+        pts2[:, 1] *= 1.1
+        pts2[:, 2] *= 1.1
 
-            # Recreate the faces for the second mesh with opposite winding order
-            faces2 = np.zeros([(pts.shape[0]-width)*2, 3], dtype=np.int32)
+        # Recreate the faces for the second mesh with opposite winding order
+        faces2 = np.zeros([(pts.shape[0]-width)*2, 3], dtype=np.int32)
 
-            for i in range(height-1):
-                for j in range(width-1):
-                    faces2[(i*width+j)*2] = [i*width+j, i*width+j+1, (i+1)*width+j]
-                    faces2[(i*width+j)*2+1] = [i*width+j+1, (i+1)*width+j+1, (i+1)*width+j]
-                # case for last column
-                faces2[(i*width+width-1)*2] = [i*width+width-1, i*width, (i+1)*width+width-1]
-                faces2[(i*width+width-1)*2+1] = [i*width, (i+1)*width, (i+1)*width+width-1]
+        for i in range(height-1):
+            for j in range(width-1):
+                faces2[(i*width+j)*2] = [i*width+j, i*width+j+1, (i+1)*width+j]
+                faces2[(i*width+j)*2+1] = [i*width+j+1, (i+1)*width+j+1, (i+1)*width+j]
+            # case for last column
+            faces2[(i*width+width-1)*2] = [i*width+width-1, i*width, (i+1)*width+width-1]
+            faces2[(i*width+width-1)*2+1] = [i*width, (i+1)*width, (i+1)*width+width-1]
 
-            faces2 += pts.shape[0]
+        faces2 += pts.shape[0]
 
-            # merge the two meshes
-            pts = np.concatenate([pts, pts2], axis=0)
-            faces = np.concatenate([faces, faces2], axis=0)
+        # merge the two meshes
+        pts = np.concatenate([pts, pts2], axis=0)
+        faces = np.concatenate([faces, faces2], axis=0)
 
         # switch y and z axis
         pts[:, [1, 2]] = pts[:, [2, 1]]
@@ -258,11 +256,10 @@ class EmissiveMesh:
         for i in range(height):
             for j in range(width):
                 tex.append([j/(width-1), 1.0-i/(height-1)])
-        if args.ue:
-            # duplicate the texture coordinates for the second layer
-            for i in range(height):
-                for j in range(width):
-                    tex.append([j/(width-1), 1.0-i/(height-1)])
+        # duplicate the texture coordinates for the second layer
+        for i in range(height):
+            for j in range(width):
+                tex.append([j/(width-1), 1.0-i/(height-1)])
         texCoords.Set(Vt.Vec2fArray(tex))
 
         # ------------------------------- Create a material ------------------------------ #
@@ -367,6 +364,6 @@ if __name__ == '__main__':
 
             # TODO deal with case when input path is not the proper relative path to the usd file
         pts, faces = EmissiveMesh.create_mesh(os.path.join(ldrpano_path, img_name + "." + img_ext))
-        EmissiveMesh.create_usd_file(pts, faces, os.path.join(HdrMap, img_name + ".exr"), os.path.join(usd_path, img_name + ".usda")) # TODO deal with png or exr inputs
+        EmissiveMesh.create_usd_file(pts, faces, os.path.join(HdrMap, img_name + ".exr"), os.path.join(usd_path, img_name + ".usd")) # TODO deal with png or exr inputs
 
         print(f"Created DepthLight mesh for {img}")
