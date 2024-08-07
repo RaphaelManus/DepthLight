@@ -10,8 +10,6 @@
 <a href='https://depthlight.github.io'><img src='https://img.shields.io/badge/Project_Page-DepthLight-green' alt='Project Page'></a>
 </div>
 
-## WIP page...
-
 ## Installation
 
 Update `depthlight.yml` with correct CUDA version for PyTorch if needed.
