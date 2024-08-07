@@ -10,8 +10,9 @@
 
 #### Step 2:
 * Download the __depthlight__ folder containing the .uasset files and place it in the __content__ folder of the project file.
+* In Unreal Engine, replace the background image with yours.
 * Import the _usd_ file containing the _DepthLight mesh_ to your project.
 
 #### Step 3:
-* Select the _DepthLight mesh_, and any additional mesh you want to hide in the compositing, add an actor tag named `object` and activate the `CustomDepth` option.
-* add the DepthLight blueprint camera to the scene.
+* Select the _DepthLight mesh_, and any additional mesh you want to hide in the compositing, add an actor tag named `hidden` and activate the `CustomDepth` option.
+* Add the DepthLight blueprint camera to the scene. and center it relative to your _DepthLight mesh_.
