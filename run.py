@@ -58,7 +58,7 @@ width = 1024
 height = 512
 
 input_path = args.input_path
-fov = int(args.fov)
+fov = float(args.fov)
 prompt = args.optional_prompt
 if args.output_path:
     output_path = args.output_path
