@@ -163,11 +163,11 @@ class EmissiveMesh:
             raw_image = cv2.imread(ldrpano, cv2.COLOR_BGR2RGB)
         depth = depthany(raw_image)
         
-        depth = 1/(depth+10e-10) # deal with inf distance values - TO CHANGE -
+        depth = 1/(depth+10e-1) # deal with inf distance values - TO CHANGE -
         range_max = depth.min()*np.minimum(depth.max() / (depth.min() + 10e-10), 100.0)
         depth = (depth) / (range_max - depth.min())
         depth = np.power(depth, 1.0 / 2.2)
-        depth = depth * 10
+        depth = depth*10
 
         grid = EmissiveMesh.SphereGrid(*depth.shape)
         pts = depth[..., None] * grid
@@ -189,9 +189,9 @@ class EmissiveMesh:
 
         # apply a 10% scale to the second mesh
         pts2 = pts.copy()
-        pts2[:, 0] *= 1.1
-        pts2[:, 1] *= 1.1
-        pts2[:, 2] *= 1.1
+        pts2[:, 0] *= 1.5
+        pts2[:, 1] *= 1.5
+        pts2[:, 2] *= 1.5
 
         # Recreate the faces for the second mesh with opposite winding order
         faces2 = np.zeros([(pts.shape[0]-width)*2, 3], dtype=np.int32)
@@ -233,8 +233,8 @@ class EmissiveMesh:
 
         # Create a mesh
         #start with a xform
-        xform = UsdGeom.Xform.Define(stage, '/myMesh')
-        mesh = UsdGeom.Mesh.Define(stage, '/myMesh/mesh')
+        xform = UsdGeom.Xform.Define(stage, '/DepthLight')
+        mesh = UsdGeom.Mesh.Define(stage, '/DepthLight/mesh')
 
         # Set points
         points = mesh.CreatePointsAttr()
@@ -247,6 +247,9 @@ class EmissiveMesh:
 
         faceVertexIndices = mesh.CreateFaceVertexIndicesAttr()
         faceVertexIndices.Set(faces.flatten())
+
+        # scale the mesh by 10
+        xform.AddScaleOp().Set(Gf.Vec3f(1.0, 1.0, 1.0))
 
         # ------------------------------ Texture coordinates ------------------------------ #
 
