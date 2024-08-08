@@ -7,7 +7,7 @@ This workflow was tested with Unreal Engine 5.3.2
 #### Step 1:
 * Create a __film/video__ blank project with raytracing enabled
 * Add the USD Importer plugin to the project
-* In _project settings_ → _engine_ → _rendering_ change the default _anti aliasing_ method to _MSAA_ to prevent temporal flickering.
+* In _project settings_ → _engine_ → _rendering_ change the default _anti aliasing_ method to _FXAA_ to prevent temporal flickering.
 
 #### Step 2:
 * Download the __depthlight__ folder containing the .uasset files and place it in the __content__ folder of the project file.
