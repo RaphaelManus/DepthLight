@@ -13,7 +13,7 @@
 ## Installation
 
 Update `depthlight.yml` with correct CUDA version for PyTorch if needed.
-Checkpoints download is done using wget.
+Checkpoints download is done using __wget__.
 
 ```bash
 git clone --recurse-submodules https://github.com/RaphaelManus/DepthLight
