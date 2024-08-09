@@ -36,3 +36,4 @@ dependencies:
       - basicsr==1.4.2
       - plotly==5.22.0
       - usd-core==24.8
+      - huggingface_hub==0.24.5
