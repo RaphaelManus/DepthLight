@@ -3,6 +3,7 @@
 import argparse
 import os
 import subprocess
+from huggingface_hub import hf_hub_download
 
 parser = argparse.ArgumentParser(prog="python run.py",
                                     description="Create an emissive mesh representation of a scene given an image input")
@@ -17,17 +18,16 @@ args = parser.parse_args()
 ######################################################### CHECK CHECKPOINTS #########################################################
 
 if not os.path.exists("./scripts/panodiff/norota_clean.ckpt"):
-    cmd = "wget https://huggingface.co/gqy2468/PanoDiff/resolve/main/pretrained_models/norota_clean.ckpt -O norota_clean.ckpt"
-    process = subprocess.run(cmd, shell=True, cwd="./scripts/panodiff/")
+    hf_hub_download(repo_id="gqy2468/PanoDiff", filename="pretrained_models/norota_clean.ckpt", local_dir="./scripts/panodiff/")
 
 if not os.path.exists("./scripts/panoLANet/checkpoint_panoLANet/panoLANet.meta"):
-    cmd = "wget https://huggingface.co/RaphaelManus/PanoLANet/resolve/main/panoLANet.data-00000-of-00001 -O panoLANet.data-00000-of-00001 && wget https://huggingface.co/RaphaelManus/PanoLANet/resolve/main/panoLANet.index -O panoLANet.index && wget https://huggingface.co/RaphaelManus/PanoLANet/resolve/main/panoLANet.meta -O panoLANet.meta"
-    process = subprocess.run(cmd, shell=True, cwd="./scripts/panoLANet/checkpoint_panoLANet")
+    hf_hub_download(repo_id="RaphaelManus/PanoLANet", filename="panoLANet.data-00000-of-00001", local_dir="./scripts/panoLANet/checkpoint_panoLANet")
+    hf_hub_download(repo_id="RaphaelManus/PanoLANet", filename="panoLANet.index", local_dir="./scripts/panoLANet/checkpoint_panoLANet")
+    hf_hub_download(repo_id="RaphaelManus/PanoLANet", filename="panoLANet.meta", local_dir="./scripts/panoLANet/checkpoint_panoLANet")
 
 if not os.path.exists("./scripts/depth_anything_v2/checkpoints/depth_anything_v2_vitl.pth"):
     os.makedirs("./scripts/depth_anything_v2/checkpoints", exist_ok=True)
-    cmd = "wget https://huggingface.co/depth-anything/Depth-Anything-V2-Large/resolve/main/depth_anything_v2_vitl.pth?download=true -O depth_anything_v2_vitl.pth"
-    process = subprocess.run(cmd, shell=True, cwd="./scripts/depth_anything_v2/checkpoints")
+    hf_hub_download(repo_id="depth-anything/Depth-Anything-V2-Large", filename="depth_anything_v2_vitl.pth", local_dir="./scripts/panoLANet/checkpoint_panoLANet")
 
 ############################################################### END CHECKPOINTS ########################################################
 
