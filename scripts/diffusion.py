@@ -37,7 +37,7 @@ padding_augment = True
 
 logger_freq = 1 #num_training // batch_size * 2
 learning_rate = 1e-5
-resume_path = './scripts/panodiff/norota_clean.ckpt'
+resume_path = './scripts/panodiff/pretrained_models/norota_clean.ckpt'
 
 NUM_GPUS = 1
 N_acc = 2 # gradient accumulate
