@@ -68,3 +68,27 @@ python run.py -i ./data/input -t ldr_lfov -f 90 -p "indoor"
 ## Unreal Engine integration
 
 See the unreal engine folder.
+
+## Citation
+
+If you find this project useful, please consider citing:
+
+```bibtex
+@article{manus2025depthlight,
+  title={DepthLight: a Single Image Lighting Pipeline for Seamless Integration of Virtual Objects into Real Scenes},
+  author={Manus, Raphael and Christie, Marc and Boivin, Samuel and Guehl, Pascal},
+  year={2025},
+  publisher={The Eurographics Association}
+}
+
+@inproceedings{10.2312:exw.20251060,
+booktitle = {ACM/EG Expressive Symposium - WICED: Eurographics Workshop on Intelligent Cinematography and Editing},
+editor = {Catalano, Chiara Eva and Parakkat, Amal Dev},
+title = {{DepthLight: a Single Image Lighting Pipeline for Seamless Integration of Virtual Objects into Real Scenes}},
+author = {Manus, Raphael and Christie, Marc and Boivin, Samuel and Guehl, Pascal},
+year = {2025},
+publisher = {The Eurographics Association},
+ISBN = {978-3-03868-271-4},
+DOI = {10.2312/exw.20251060}
+}
+```
